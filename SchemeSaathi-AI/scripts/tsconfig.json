@@ -1,0 +1,17 @@
+{
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src",
+    "types": ["node"],
+    "baseUrl": ".",
+    "paths": {
+      "@workspace/db": ["../lib/db/src/index.ts"],
+      "drizzle-orm": ["../node_modules/drizzle-orm"]
+    }
+  },
+  "include": ["src"],
+  "references": [
+    { "path": "../lib/db" }
+  ]
+}

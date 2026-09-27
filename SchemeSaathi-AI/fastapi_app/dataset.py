@@ -1,0 +1,886 @@
+"""
+SchemeSaathi AI - 20 Government Schemes Dataset (STEP 4)
+Comprehensive industrial dataset of 20 Indian Government schemes for entrepreneurs,
+artisans, MSMEs, startups, and women business owners.
+"""
+
+from typing import List, Dict, Any, Optional
+from pydantic import BaseModel, Field
+
+
+class SchemeModel(BaseModel):
+    id: str
+    name: str
+    shortName: str
+    description: str
+    category: str
+    ministry: str
+    governmentType: str
+    benefits: List[str]
+    documents: List[str]
+    status: str = "Active"
+    lastVerified: str = "28 Aug 2026"
+    source: str
+    officialApplicationUrl: str
+    locations: List[str]  # e.g. ["Rural", "Urban"]
+    businessTypes: List[str]  # e.g. ["Manufacturing", "Service", "Trading", "Food Processing", "Agriculture", "Technology", "Handicrafts"]
+    targetGroups: List[str]  # e.g. ["SC", "ST", "OBC", "Women", "Minority", "General", "Youth"]
+    maxProjectCost: float
+    subsidyRatePercent: float
+    maxSubsidyAmount: float
+    maxLoanAmount: float
+    interestSubventionPercent: float
+    processingTimeWeeks: int
+    sector: str
+    minAge: int = 18
+    maxAge: int = 65
+    maxAnnualIncome: Optional[float] = None
+    maxTurnover: Optional[float] = None
+    maxInvestment: Optional[float] = None
+    isActive: bool = True
+    guidelineSummary: str = ""
+
+
+SCHEMES_DATASET: List[SchemeModel] = [
+    SchemeModel(
+        id="pmegp",
+        name="Prime Minister’s Employment Generation Programme",
+        shortName="PMEGP",
+        description="Credit-linked subsidy support for setting up new micro enterprises in manufacturing and services.",
+        category="Credit & Subsidy",
+        ministry="Ministry of MSME",
+        governmentType="Central Government",
+        benefits=[
+            "Margin money subsidy up to 35% in rural areas (25% in urban)",
+            "Term loan up to 90% of project cost from scheduled banks",
+            "Collateral-free CGTMSE cover for project funding up to ₹50 Lakhs"
+        ],
+        documents=[
+            "Aadhaar Card",
+            "PAN Card",
+            "Udyam Registration Certificate",
+            "Project Report",
+            "Bank Statement",
+            "Caste Certificate"
+        ],
+        status="Active",
+        lastVerified="28 Aug 2026",
+        source="https://msme.gov.in",
+        officialApplicationUrl="https://www.kviconline.gov.in/pmegpeportal/",
+        locations=["Rural", "Urban"],
+        businessTypes=["Manufacturing", "Service"],
+        targetGroups=["SC", "ST", "OBC", "Women", "Minority", "General"],
+        maxProjectCost=5000000.0,
+        subsidyRatePercent=35.0,
+        maxSubsidyAmount=1750000.0,
+        maxLoanAmount=4500000.0,
+        interestSubventionPercent=0.0,
+        processingTimeWeeks=4,
+        sector="Manufacturing & Services",
+        minAge=18,
+        maxAge=45,
+        maxAnnualIncome=1500000.0,
+        maxTurnover=10000000.0,
+        maxInvestment=5000000.0,
+        isActive=True,
+        guidelineSummary="PMEGP is administered by KVIC at national level. Project cost limit is ₹50 Lakhs for manufacturing and ₹20 Lakhs for service sector. Minimum 8th class pass required for project cost above ₹10 Lakhs in manufacturing."
+    ),
+    SchemeModel(
+        id="pm-vishwakarma",
+        name="PM Vishwakarma Scheme",
+        shortName="PM Vishwakarma",
+        description="End-to-end support for traditional artisans and craftspeople working with hands and tools.",
+        category="Artisan & Skill Support",
+        ministry="Ministry of MSME",
+        governmentType="Central Government",
+        benefits=[
+            "Subsidized collateral-free loan up to ₹3 Lakh @ 5% interest",
+            "Skill training stipend of ₹500/day during 5-day basic training",
+            "Tool kit incentive grant of ₹15,000"
+        ],
+        documents=[
+            "Aadhaar Card",
+            "Bank Statement",
+            "Skill Certificate",
+            "Address Proof"
+        ],
+        status="Active",
+        lastVerified="25 Aug 2026",
+        source="https://pmvishwakarma.gov.in",
+        officialApplicationUrl="https://pmvishwakarma.gov.in",
+        locations=["Rural", "Urban"],
+        businessTypes=["Handicrafts", "Manufacturing", "Service"],
+        targetGroups=["SC", "ST", "OBC", "Women", "General"],
+        maxProjectCost=300000.0,
+        subsidyRatePercent=15.0,
+        maxSubsidyAmount=45000.0,
+        maxLoanAmount=300000.0,
+        interestSubventionPercent=8.0,
+        processingTimeWeeks=2,
+        sector="Traditional Artisans",
+        minAge=18,
+        maxAge=65,
+        maxAnnualIncome=800000.0,
+        maxTurnover=2000000.0,
+        maxInvestment=300000.0,
+        isActive=True,
+        guidelineSummary="Covers 18 traditional trades including Carpenter, Blacksmith, Goldsmith, Potter, Sculptor, Cobbler, Tailor, Basket maker, and Mason. First tranche ₹1 Lakh, second tranche ₹2 Lakhs upon repayment."
+    ),
+    SchemeModel(
+        id="pmfme",
+        name="PM Formalisation of Micro Food Processing Enterprises",
+        shortName="PMFME",
+        description="Financial, technical and business support for individual micro food processing enterprises and FPOs.",
+        category="Food Processing",
+        ministry="Ministry of Food Processing Industries",
+        governmentType="Central Government",
+        benefits=[
+            "Credit-linked capital subsidy @ 35% of project cost (max ₹10 Lakhs)",
+            "Training & skill upskilling for food safety & FSSAI compliance",
+            "Branding & marketing support for ODOP (One District One Product)"
+        ],
+        documents=[
+            "Aadhaar Card",
+            "PAN Card",
+            "Udyam Registration Certificate",
+            "Project Report",
+            "FSSAI License",
+            "Bank Statement"
+        ],
+        status="Active",
+        lastVerified="26 Aug 2026",
+        source="https://pmfme.mofpi.gov.in",
+        officialApplicationUrl="https://pmfme.mofpi.gov.in",
+        locations=["Rural", "Urban"],
+        businessTypes=["Manufacturing", "Food Processing"],
+        targetGroups=["SC", "ST", "OBC", "Women", "General"],
+        maxProjectCost=1000000.0,
+        subsidyRatePercent=35.0,
+        maxSubsidyAmount=1000000.0,
+        maxLoanAmount=900000.0,
+        interestSubventionPercent=0.0,
+        processingTimeWeeks=4,
+        sector="Food Processing",
+        minAge=18,
+        maxAge=60,
+        maxAnnualIncome=1200000.0,
+        maxTurnover=5000000.0,
+        maxInvestment=1000000.0,
+        isActive=True,
+        guidelineSummary="Focuses on One District One Product (ODOP) items. Beneficiary contribution minimum 10%, balance through bank term loan. Existing micro food processing units eligible for expansion."
+    ),
+    SchemeModel(
+        id="mudra",
+        name="Pradhan Mantri MUDRA Yojana (Shishu / Kishor / Tarun)",
+        shortName="MUDRA",
+        description="Collateral-free business loans up to ₹10 Lakhs for micro enterprises across manufacturing, trading, and services.",
+        category="Business Loan",
+        ministry="Ministry of Finance",
+        governmentType="Central Government",
+        benefits=[
+            "Collateral-free loan up to ₹10 Lakhs across 3 tiers (Shishu: 50k, Kishor: 5L, Tarun: 10L)",
+            "Flexible repayment tenure up to 5 years",
+            "Mudra Card facility for working capital drawdowns"
+        ],
+        documents=[
+            "Aadhaar Card",
+            "PAN Card",
+            "Bank Statement",
+            "Business Registration Certificate"
+        ],
+        status="Active",
+        lastVerified="18 Aug 2026",
+        source="https://mudra.org.in",
+        officialApplicationUrl="https://www.udyamimitra.in",
+        locations=["Rural", "Urban"],
+        businessTypes=["Manufacturing", "Service", "Trading", "Food Processing"],
+        targetGroups=["SC", "ST", "OBC", "Women", "Minority", "General"],
+        maxProjectCost=1000000.0,
+        subsidyRatePercent=0.0,
+        maxSubsidyAmount=0.0,
+        maxLoanAmount=1000000.0,
+        interestSubventionPercent=2.0,
+        processingTimeWeeks=2,
+        sector="Micro Business",
+        minAge=18,
+        maxAge=65,
+        maxAnnualIncome=2500000.0,
+        maxTurnover=10000000.0,
+        maxInvestment=1000000.0,
+        isActive=True,
+        guidelineSummary="Shishu (loans up to ₹50,000), Kishor (loans from ₹50,000 to ₹5 Lakhs), Tarun (loans from ₹5 Lakhs to ₹10 Lakhs). Zero processing fee for Shishu and Kishor loans."
+    ),
+    SchemeModel(
+        id="stand-up-india",
+        name="Stand-Up India Scheme",
+        shortName="Stand-Up India",
+        description="Composite bank loans for setting up greenfield enterprises promoted by SC, ST, or Women entrepreneurs.",
+        category="Inclusive Finance",
+        ministry="Ministry of Finance",
+        governmentType="Central Government",
+        benefits=[
+            "Bank loans between ₹10 Lakh and ₹1 Crore for greenfield projects",
+            "Handholding support through SIDBI Stand-Up Mitra portal",
+            "Credit guarantee cover via Credit Guarantee Fund Scheme for Stand-Up India (CGFSI)"
+        ],
+        documents=[
+            "Aadhaar Card",
+            "PAN Card",
+            "Project Report",
+            "Caste Certificate",
+            "Bank Statement",
+            "ITR"
+        ],
+        status="Active",
+        lastVerified="12 Aug 2026",
+        source="https://standupmitra.in",
+        officialApplicationUrl="https://www.standupmitra.in",
+        locations=["Rural", "Urban"],
+        businessTypes=["Manufacturing", "Service", "Trading"],
+        targetGroups=["SC", "ST", "Women"],
+        maxProjectCost=10000000.0,
+        subsidyRatePercent=15.0,
+        maxSubsidyAmount=1500000.0,
+        maxLoanAmount=10000000.0,
+        interestSubventionPercent=3.0,
+        processingTimeWeeks=6,
+        sector="Greenfield Enterprise",
+        minAge=18,
+        maxAge=55,
+        maxAnnualIncome=5000000.0,
+        maxTurnover=50000000.0,
+        maxInvestment=10000000.0,
+        isActive=True,
+        guidelineSummary="At least one SC/ST borrower and at least one Woman borrower per bank branch. Borrower must own 51% or more shareholding in non-individual entities."
+    ),
+    SchemeModel(
+        id="cgtmse",
+        name="Credit Guarantee Scheme for Micro & Small Enterprises",
+        shortName="CGTMSE",
+        description="Credit guarantee cover enabling collateral-free credit facilities up to ₹5 Crore for MSMEs.",
+        category="Credit Guarantee",
+        ministry="Ministry of MSME",
+        governmentType="Central Government",
+        benefits=[
+            "Collateral-free credit facility up to ₹5 Crore",
+            "Up to 85% guarantee cover for Women, SC/ST, and ZED-certified micro units",
+            "Concessional annual guarantee fee structure starting at 0.37%"
+        ],
+        documents=[
+            "PAN Card",
+            "Udyam Registration Certificate",
+            "Project Report",
+            "Bank Statement",
+            "GST Certificate"
+        ],
+        status="Active",
+        lastVerified="05 Aug 2026",
+        source="https://cgtmse.in",
+        officialApplicationUrl="https://www.cgtmse.in",
+        locations=["Rural", "Urban"],
+        businessTypes=["Manufacturing", "Service"],
+        targetGroups=["SC", "ST", "OBC", "Women", "Minority", "General"],
+        maxProjectCost=50000000.0,
+        subsidyRatePercent=0.0,
+        maxSubsidyAmount=0.0,
+        maxLoanAmount=50000000.0,
+        interestSubventionPercent=1.5,
+        processingTimeWeeks=3,
+        sector="MSME Finance",
+        minAge=18,
+        maxAge=70,
+        maxAnnualIncome=10000000.0,
+        maxTurnover=250000000.0,
+        maxInvestment=50000000.0,
+        isActive=True,
+        guidelineSummary="Operated by CGTMSE (jointly set up by Ministry of MSME and SIDBI). Covers both term loans and working capital facilities for new and existing MSMEs."
+    ),
+    SchemeModel(
+        id="sisfs",
+        name="Startup India Seed Fund Scheme",
+        shortName="SISFS",
+        description="Financial assistance to early-stage DPIIT-recognized startups for proof of concept, prototype, and commercialization.",
+        category="Startup Grant",
+        ministry="DPIIT",
+        governmentType="Central Government",
+        benefits=[
+            "Grant up to ₹20 Lakhs for validation of proof of concept, prototype development, product trials",
+            "Investment up to ₹50 Lakhs for market entry, commercialization, scaling via convertible debentures/debt",
+            "Incubator incubation, lab access, and technical mentorship"
+        ],
+        documents=[
+            "DPIIT Recognition Certificate",
+            "Project Report",
+            "PAN Card",
+            "Pitch Deck",
+            "Bank Statement"
+        ],
+        status="Active",
+        lastVerified="20 Aug 2026",
+        source="https://seedfund.startupindia.gov.in",
+        officialApplicationUrl="https://seedfund.startupindia.gov.in",
+        locations=["Rural", "Urban"],
+        businessTypes=["Technology", "Manufacturing", "Service"],
+        targetGroups=["General", "Women", "Youth"],
+        maxProjectCost=7000000.0,
+        subsidyRatePercent=50.0,
+        maxSubsidyAmount=2000000.0,
+        maxLoanAmount=5000000.0,
+        interestSubventionPercent=4.0,
+        processingTimeWeeks=6,
+        sector="Technology & Innovation",
+        minAge=18,
+        maxAge=45,
+        maxAnnualIncome=2500000.0,
+        maxTurnover=10000000.0,
+        maxInvestment=5000000.0,
+        isActive=True,
+        guidelineSummary="Startup must be recognized by DPIIT, incorporated not more than 2 years ago at the time of application, with innovative technology/solution."
+    ),
+    SchemeModel(
+        id="msme-champions",
+        name="MSME Champions & Lean Scheme",
+        shortName="MSME Champions",
+        description="Financial assistance for MSMEs to adopt Lean manufacturing practices, IPR registration, and quality certification.",
+        category="Quality & Technology",
+        ministry="Ministry of MSME",
+        governmentType="Central Government",
+        benefits=[
+            "Up to ₹5 Lakhs reimbursement for IPR & patent registration",
+            "Up to ₹15 Lakhs per unit support for Lean manufacturing implementation",
+            "Up to 80% subsidy on ZED (Zero Defect Zero Effect) certification fee"
+        ],
+        documents=[
+            "Udyam Registration Certificate",
+            "GST Certificate",
+            "PAN Card",
+            "ITR"
+        ],
+        status="Active",
+        lastVerified="15 Aug 2026",
+        source="https://msme.gov.in",
+        officialApplicationUrl="https://champions.gov.in",
+        locations=["Rural", "Urban"],
+        businessTypes=["Manufacturing", "Service"],
+        targetGroups=["SC", "ST", "OBC", "Women", "General"],
+        maxProjectCost=2000000.0,
+        subsidyRatePercent=75.0,
+        maxSubsidyAmount=1500000.0,
+        maxLoanAmount=0.0,
+        interestSubventionPercent=0.0,
+        processingTimeWeeks=3,
+        sector="Manufacturing & Quality",
+        minAge=18,
+        maxAge=65,
+        maxAnnualIncome=5000000.0,
+        maxTurnover=50000000.0,
+        maxInvestment=10000000.0,
+        isActive=True,
+        guidelineSummary="Encourages waste reduction, productivity improvement, green manufacturing, and technology adoption among manufacturing micro, small, and medium enterprises."
+    ),
+    SchemeModel(
+        id="nabard-agri-fund",
+        name="NABARD Agri-Business Infrastructure Fund",
+        shortName="NABARD Agri Fund",
+        description="Concessional credit and capital subsidy for agri-entrepreneurs, FPOs, and rural food processing units.",
+        category="Agriculture & Rural",
+        ministry="NABARD / Ministry of Agriculture",
+        governmentType="Central Government",
+        benefits=[
+            "Capital subsidy 36% for SC/ST/Rural entrepreneurs (25% for General category)",
+            "Refinance support to commercial banks at concessional interest rates",
+            "3% interest subvention under Agriculture Infrastructure Fund (AIF)"
+        ],
+        documents=[
+            "Aadhaar Card",
+            "PAN Card",
+            "Project Report",
+            "Land Records / Lease Agreement",
+            "Bank Statement"
+        ],
+        status="Active",
+        lastVerified="10 Aug 2026",
+        source="https://nabard.org",
+        officialApplicationUrl="https://nabard.org",
+        locations=["Rural"],
+        businessTypes=["Agriculture", "Food Processing", "Manufacturing"],
+        targetGroups=["SC", "ST", "OBC", "Women", "General"],
+        maxProjectCost=10000000.0,
+        subsidyRatePercent=36.0,
+        maxSubsidyAmount=3600000.0,
+        maxLoanAmount=8000000.0,
+        interestSubventionPercent=3.0,
+        processingTimeWeeks=5,
+        sector="Agri-Business & Rural Development",
+        minAge=18,
+        maxAge=60,
+        maxAnnualIncome=2000000.0,
+        maxTurnover=20000000.0,
+        maxInvestment=10000000.0,
+        isActive=True,
+        guidelineSummary="Supports cold storage, post-harvest management, agro-processing clusters, primary processing units, and custom hiring centers in rural regions."
+    ),
+    SchemeModel(
+        id="pli-msme",
+        name="Production Linked Incentive (PLI) for MSME & Electronics",
+        shortName="PLI MSME",
+        description="Financial incentive on incremental sales of products manufactured in domestic MSME & electronics units.",
+        category="Manufacturing Incentive",
+        ministry="Ministry of Heavy Industries & MeitY",
+        governmentType="Central Government",
+        benefits=[
+            "4% to 6% incentive on incremental sales over base year",
+            "Cap on maximum incentive payout up to ₹5 Crore per unit",
+            "Fast-track clearance for greenfield manufacturing capacity expansion"
+        ],
+        documents=[
+            "GST Certificate",
+            "Udyam Registration Certificate",
+            "CA Certified Turn-over Certificate",
+            "Factory License",
+            "Bank Statement"
+        ],
+        status="Active",
+        lastVerified="22 Aug 2026",
+        source="https://pli.gov.in",
+        officialApplicationUrl="https://pli.gov.in",
+        locations=["Rural", "Urban"],
+        businessTypes=["Manufacturing"],
+        targetGroups=["General", "SC", "ST", "OBC", "Women"],
+        maxProjectCost=25000000.0,
+        subsidyRatePercent=6.0,
+        maxSubsidyAmount=5000000.0,
+        maxLoanAmount=15000000.0,
+        interestSubventionPercent=2.0,
+        processingTimeWeeks=8,
+        sector="Electronics & Heavy Manufacturing",
+        minAge=18,
+        maxAge=65,
+        maxAnnualIncome=10000000.0,
+        maxTurnover=100000000.0,
+        maxInvestment=25000000.0,
+        isActive=True,
+        guidelineSummary="Designed to boost domestic manufacturing capacity, substitute imports, and attract investment into critical components, auto parts, and electronic items."
+    ),
+    SchemeModel(
+        id="cgs-mu",
+        name="Credit Guarantee Scheme for Micro Units (CGS-MU)",
+        shortName="CGS-MU",
+        description="Credit guarantee scheme for micro business loans provided under MUDRA loans and micro-credit portfolios.",
+        category="Credit Guarantee",
+        ministry="Ministry of Finance / NCGTC",
+        governmentType="Central Government",
+        benefits=[
+            "100% guarantee cover for loans up to ₹10 Lakhs under MUDRA Shishu/Kishor/Tarun",
+            "No collateral required from micro enterprise borrower",
+            "Covers micro overdrafts, micro credit cards, and working capital loans"
+        ],
+        documents=[
+            "Aadhaar Card",
+            "PAN Card",
+            "Bank Account Details",
+            "Business Unit Photo"
+        ],
+        status="Active",
+        lastVerified="14 Aug 2026",
+        source="https://ncgtc.in",
+        officialApplicationUrl="https://www.udyamimitra.in",
+        locations=["Rural", "Urban"],
+        businessTypes=["Manufacturing", "Service", "Trading", "Food Processing"],
+        targetGroups=["SC", "ST", "OBC", "Women", "Minority", "General"],
+        maxProjectCost=1000000.0,
+        subsidyRatePercent=0.0,
+        maxSubsidyAmount=0.0,
+        maxLoanAmount=1000000.0,
+        interestSubventionPercent=1.0,
+        processingTimeWeeks=2,
+        sector="Micro Business",
+        minAge=18,
+        maxAge=65,
+        maxAnnualIncome=1500000.0,
+        maxTurnover=5000000.0,
+        maxInvestment=1000000.0,
+        isActive=True,
+        guidelineSummary="Administered by National Credit Guarantee Trustee Company (NCGTC) for micro business segment to accelerate formal banking credit reach."
+    ),
+    SchemeModel(
+        id="pm-svanidhi",
+        name="PM Street Vendor's AtmaNirbhar Nidhi (PM SVANidhi)",
+        shortName="PM SVANidhi",
+        description="Micro-credit scheme providing working capital loans up to ₹50,000 for street vendors and micro traders.",
+        category="Micro Credit",
+        ministry="Ministry of Housing & Urban Affairs",
+        governmentType="Central Government",
+        benefits=[
+            "Collateral-free working capital loan in 3 tranches (₹10k, ₹20k, ₹50k)",
+            "7% interest subsidy credited directly to bank account on timely repayment",
+            "Digital transaction cashback incentive up to ₹1,200/year"
+        ],
+        documents=[
+            "Aadhaar Card",
+            "Vending Certificate / Urban Local Body ID Card",
+            "Bank Passbook"
+        ],
+        status="Active",
+        lastVerified="27 Aug 2026",
+        source="https://pmsvanidhi.mohua.gov.in",
+        officialApplicationUrl="https://pmsvanidhi.mohua.gov.in",
+        locations=["Urban", "Rural"],
+        businessTypes=["Trading", "Service", "Food Processing"],
+        targetGroups=["SC", "ST", "OBC", "Women", "General"],
+        maxProjectCost=50000.0,
+        subsidyRatePercent=7.0,
+        maxSubsidyAmount=3500.0,
+        maxLoanAmount=50000.0,
+        interestSubventionPercent=7.0,
+        processingTimeWeeks=1,
+        sector="Micro Trading & Vending",
+        minAge=18,
+        maxAge=65,
+        maxAnnualIncome=300000.0,
+        maxTurnover=1000000.0,
+        maxInvestment=50000.0,
+        isActive=True,
+        guidelineSummary="Targeted at street vendors selling food, fruits, vegetables, artisan goods, clothes, and services in urban and peri-urban areas."
+    ),
+    SchemeModel(
+        id="ramp-scheme",
+        name="Raising and Accelerating MSME Performance (RAMP)",
+        shortName="RAMP",
+        description="World Bank-assisted central scheme for MSME competitiveness, green transition, and credit flow acceleration.",
+        category="Capacity Building",
+        ministry="Ministry of MSME",
+        governmentType="Central Government",
+        benefits=[
+            "Grants and capacity building for MSME technology upgradation",
+            "Subsidized consultancy for ESG compliance & export market access",
+            "Delayed payment resolution & digital invoice discounting support"
+        ],
+        documents=[
+            "Udyam Registration Certificate",
+            "GST Certificate",
+            "PAN Card",
+            "Financial Statements"
+        ],
+        status="Active",
+        lastVerified="19 Aug 2026",
+        source="https://msme.gov.in",
+        officialApplicationUrl="https://ramp.msme.gov.in",
+        locations=["Rural", "Urban"],
+        businessTypes=["Manufacturing", "Service"],
+        targetGroups=["General", "Women", "SC", "ST", "OBC"],
+        maxProjectCost=5000000.0,
+        subsidyRatePercent=50.0,
+        maxSubsidyAmount=2500000.0,
+        maxLoanAmount=0.0,
+        interestSubventionPercent=0.0,
+        processingTimeWeeks=4,
+        sector="MSME Competitiveness",
+        minAge=18,
+        maxAge=65,
+        maxAnnualIncome=5000000.0,
+        maxTurnover=50000000.0,
+        maxInvestment=10000000.0,
+        isActive=True,
+        guidelineSummary="Aims to improve access to market and credit, strengthen institutions and governance at central and state levels, and address delayed payments."
+    ),
+    SchemeModel(
+        id="sfurti",
+        name="Scheme of Fund for Regeneration of Traditional Industries (SFURTI)",
+        shortName="SFURTI",
+        description="Financial grant scheme for developing traditional industry clusters in khadi, village industries, and coir.",
+        category="Cluster Development",
+        ministry="Ministry of MSME",
+        governmentType="Central Government",
+        benefits=[
+            "Financial grant up to ₹5 Crore for Regular Clusters (up to 500 artisans)",
+            "Grant up to ₹2.5 Crore for Heritage Clusters (up to 250 artisans)",
+            "Funding for Common Facility Centres (CFC), raw material banks, and packaging"
+        ],
+        documents=[
+            "Cluster Registration Certificate",
+            "Artisan List with Aadhaar Cards",
+            "DPR / Feasibility Report",
+            "Bank Statement"
+        ],
+        status="Active",
+        lastVerified="11 Aug 2026",
+        source="https://sfurti.msme.gov.in",
+        officialApplicationUrl="https://sfurti.msme.gov.in",
+        locations=["Rural"],
+        businessTypes=["Handicrafts", "Manufacturing", "Agriculture"],
+        targetGroups=["SC", "ST", "OBC", "Women", "General"],
+        maxProjectCost=50000000.0,
+        subsidyRatePercent=90.0,
+        maxSubsidyAmount=45000000.0,
+        maxLoanAmount=5000000.0,
+        interestSubventionPercent=0.0,
+        processingTimeWeeks=8,
+        sector="Traditional & Heritage Industry",
+        minAge=18,
+        maxAge=65,
+        maxAnnualIncome=2000000.0,
+        maxTurnover=20000000.0,
+        maxInvestment=10000000.0,
+        isActive=True,
+        guidelineSummary="Implements cluster-based development for traditional artisans (bamboo, honey, handloom, pottery, coir) to make them competitive and self-sustaining."
+    ),
+    SchemeModel(
+        id="aspire",
+        name="ASPIRE - Promotion of Innovation & Rural Industry",
+        shortName="ASPIRE",
+        description="Financial support for setting up Livelihood Business Incubators (LBI) and Technology Business Incubators (TBI) in rural sectors.",
+        category="Rural Innovation",
+        ministry="Ministry of MSME",
+        governmentType="Central Government",
+        benefits=[
+            "Grant up to ₹1 Crore for 100% plant & machinery cost in Livelihood Incubators",
+            "One-time grant up to ₹1 Crore for TBI incubator infrastructure",
+            "Seed capital grant up to ₹20 Lakhs per rural start-up enterprise"
+        ],
+        documents=[
+            "Aadhaar Card",
+            "PAN Card",
+            "Project Report / Business Plan",
+            "Udyam Registration Certificate"
+        ],
+        status="Active",
+        lastVerified="16 Aug 2026",
+        source="https://aspire.msme.gov.in",
+        officialApplicationUrl="https://aspire.msme.gov.in",
+        locations=["Rural"],
+        businessTypes=["Agriculture", "Manufacturing", "Technology", "Food Processing"],
+        targetGroups=["General", "Women", "SC", "ST", "OBC"],
+        maxProjectCost=10000000.0,
+        subsidyRatePercent=100.0,
+        maxSubsidyAmount=10000000.0,
+        maxLoanAmount=0.0,
+        interestSubventionPercent=0.0,
+        processingTimeWeeks=6,
+        sector="Rural Entrepreneurship",
+        minAge=18,
+        maxAge=50,
+        maxAnnualIncome=2500000.0,
+        maxTurnover=10000000.0,
+        maxInvestment=5000000.0,
+        isActive=True,
+        guidelineSummary="ASPIRE creates new jobs, promotes agro-rural entrepreneurship, and fosters grassroots innovation in rural and semi-urban India."
+    ),
+    SchemeModel(
+        id="tread-women",
+        name="Trade Related Entrepreneurship Assistance (TREAD) for Women",
+        shortName="TREAD Women",
+        description="Government grant and credit assistance specifically designed for economic empowerment of women entrepreneurs.",
+        category="Women Empowerment",
+        ministry="Ministry of MSME",
+        governmentType="Central Government",
+        benefits=[
+            "Government grant up to 30% of total project cost evaluated by lending bank",
+            "70% bank loan portion for non-farm activities",
+            "Capacity building grant up to ₹1 Lakh per batch for NGO / SHG training"
+        ],
+        documents=[
+            "Aadhaar Card",
+            "PAN Card",
+            "Woman Ownership Proof (51%+)",
+            "Project Report",
+            "Bank Statement"
+        ],
+        status="Active",
+        lastVerified="21 Aug 2026",
+        source="https://msme.gov.in",
+        officialApplicationUrl="https://msme.gov.in",
+        locations=["Rural", "Urban"],
+        businessTypes=["Service", "Manufacturing", "Trading", "Food Processing", "Handicrafts"],
+        targetGroups=["Women"],
+        maxProjectCost=3000000.0,
+        subsidyRatePercent=30.0,
+        maxSubsidyAmount=900000.0,
+        maxLoanAmount=2100000.0,
+        interestSubventionPercent=2.0,
+        processingTimeWeeks=4,
+        sector="Women Enterprise",
+        minAge=18,
+        maxAge=60,
+        maxAnnualIncome=1500000.0,
+        maxTurnover=10000000.0,
+        maxInvestment=3000000.0,
+        isActive=True,
+        guidelineSummary="Exclusive scheme for women entrepreneurs individually or through Self-Help Groups (SHGs) and NGOs for non-farm business ventures."
+    ),
+    SchemeModel(
+        id="msme-zed",
+        name="MSME Sustainable (ZED) Certification Scheme",
+        shortName="ZED Certification",
+        description="Subsidized certification scheme inspiring MSMEs to produce Zero Defect goods with Zero Effect on the environment.",
+        category="Quality & Green Tech",
+        ministry="Ministry of MSME",
+        governmentType="Central Government",
+        benefits=[
+            "80% subsidy for Micro, 60% for Small, 50% for Medium enterprises on certification cost",
+            "Additional 10% subsidy for Women / SC / ST owned MSMEs",
+            "Financial assistance up to ₹5 Lakhs for handholding and energy auditor consultancy"
+        ],
+        documents=[
+            "Udyam Registration Certificate",
+            "GST Certificate",
+            "PAN Card",
+            "Factory / Office Premises Proof"
+        ],
+        status="Active",
+        lastVerified="17 Aug 2026",
+        source="https://zed.msme.gov.in",
+        officialApplicationUrl="https://zed.msme.gov.in",
+        locations=["Rural", "Urban"],
+        businessTypes=["Manufacturing"],
+        targetGroups=["SC", "ST", "OBC", "Women", "General"],
+        maxProjectCost=500000.0,
+        subsidyRatePercent=90.0,
+        maxSubsidyAmount=450000.0,
+        maxLoanAmount=0.0,
+        interestSubventionPercent=0.5,
+        processingTimeWeeks=2,
+        sector="Green & Sustainable Manufacturing",
+        minAge=18,
+        maxAge=65,
+        maxAnnualIncome=5000000.0,
+        maxTurnover=50000000.0,
+        maxInvestment=10000000.0,
+        isActive=True,
+        guidelineSummary="Provides Bronze, Silver, and Gold level certifications. ZED-certified MSMEs get concessions on bank loan processing fees and interest rates."
+    ),
+    SchemeModel(
+        id="toolroom-training",
+        name="MSME Tool Room & Technology Centre Training Scheme",
+        shortName="MSME Tool Room",
+        description="Skill development, precision tooling, and prototyping support for technical manufacturing MSMEs.",
+        category="Skill & Tooling",
+        ministry="Ministry of MSME",
+        governmentType="Central Government",
+        benefits=[
+            "100% fee waiver for SC/ST candidates in tool room training courses",
+            "Access to CAD/CAM, CNC, 3D printing, and high-precision tool manufacturing",
+            "Subsidized job-work and prototype development rates for micro units"
+        ],
+        documents=[
+            "Aadhaar Card",
+            "Educational Qualification Certificate",
+            "Caste Certificate (if applicable)",
+            "Udyam Registration (for units)"
+        ],
+        status="Active",
+        lastVerified="13 Aug 2026",
+        source="https://msme.gov.in",
+        officialApplicationUrl="https://msme.gov.in",
+        locations=["Rural", "Urban"],
+        businessTypes=["Manufacturing", "Service", "Technology"],
+        targetGroups=["SC", "ST", "OBC", "Women", "General", "Youth"],
+        maxProjectCost=1000000.0,
+        subsidyRatePercent=100.0,
+        maxSubsidyAmount=100000.0,
+        maxLoanAmount=0.0,
+        interestSubventionPercent=0.0,
+        processingTimeWeeks=1,
+        sector="Skill & High Tech Manufacturing",
+        minAge=16,
+        maxAge=45,
+        maxAnnualIncome=1000000.0,
+        maxTurnover=10000000.0,
+        maxInvestment=2000000.0,
+        isActive=True,
+        guidelineSummary="Operated through 18 MSME Technology Centres across India providing NSQF-compliant skill development and tool design consulting."
+    ),
+    SchemeModel(
+        id="coir-vikas",
+        name="Coir Vikas Yojana (CVY) - Mahila Coir Yojana",
+        shortName="Coir Vikas Yojana",
+        description="Skill training, equipment subsidy, and technology modernization support for coir industry workers.",
+        category="Agri & Coir Industry",
+        ministry="Coir Board / Ministry of MSME",
+        governmentType="Central Government",
+        benefits=[
+            "75% subsidy on motorized coir spinning ratts / traditional tools for women spinners",
+            "Monthly stipend of ₹3,000 during 2-month coir skill training",
+            "Export market development assistance for coir product exporters"
+        ],
+        documents=[
+            "Aadhaar Card",
+            "Bank Account Passbook",
+            "Skill Certificate",
+            "Address Proof"
+        ],
+        status="Active",
+        lastVerified="23 Aug 2026",
+        source="https://coirboard.gov.in",
+        officialApplicationUrl="https://coirboard.gov.in",
+        locations=["Rural"],
+        businessTypes=["Manufacturing", "Handicrafts", "Agriculture"],
+        targetGroups=["Women", "SC", "ST", "OBC", "General"],
+        maxProjectCost=200000.0,
+        subsidyRatePercent=75.0,
+        maxSubsidyAmount=150000.0,
+        maxLoanAmount=50000.0,
+        interestSubventionPercent=0.0,
+        processingTimeWeeks=3,
+        sector="Coir & Coconut Fiber Industry",
+        minAge=18,
+        maxAge=60,
+        maxAnnualIncome=500000.0,
+        maxTurnover=2000000.0,
+        maxInvestment=200000.0,
+        isActive=True,
+        guidelineSummary="Specifically targeted at coconut growing states (Kerala, Tamil Nadu, Karnataka, Andhra Pradesh, Odisha) to empower rural women coir artisans."
+    ),
+    SchemeModel(
+        id="nsic-raw-material",
+        name="NSIC Raw Material Assistance Scheme",
+        shortName="NSIC Raw Material",
+        description="Financial assistance for procurement of raw materials (bulk buying, steel, aluminum, polymers) for MSMEs.",
+        category="Raw Material Credit",
+        ministry="National Small Industries Corporation (NSIC)",
+        governmentType="Central Government",
+        benefits=[
+            "Financial credit up to 90 days for raw material purchases at concessional interest rates",
+            "Bulk buying discount benefits passed directly to micro and small enterprises",
+            "Import of scarce raw materials against Bank Guarantee cover"
+        ],
+        documents=[
+            "Udyam Registration Certificate",
+            "Bank Guarantee / Collateral Proof",
+            "GST Certificate",
+            "Financial Audit Report"
+        ],
+        status="Active",
+        lastVerified="24 Aug 2026",
+        source="https://www.nsic.co.in",
+        officialApplicationUrl="https://www.nsic.co.in",
+        locations=["Rural", "Urban"],
+        businessTypes=["Manufacturing"],
+        targetGroups=["General", "SC", "ST", "OBC", "Women"],
+        maxProjectCost=10000000.0,
+        subsidyRatePercent=0.0,
+        maxSubsidyAmount=0.0,
+        maxLoanAmount=10000000.0,
+        interestSubventionPercent=1.5,
+        processingTimeWeeks=3,
+        sector="Raw Material Procurement & Supply",
+        minAge=18,
+        maxAge=65,
+        maxAnnualIncome=5000000.0,
+        maxTurnover=50000000.0,
+        maxInvestment=10000000.0,
+        isActive=True,
+        guidelineSummary="Helps manufacturing MSMEs secure quality raw materials at competitive rates and overcome cash-flow bottlenecks."
+    )
+]
+
+
+def get_all_schemes() -> List[SchemeModel]:
+    return SCHEMES_DATASET
+
+
+def get_scheme_by_id(scheme_id: str) -> Optional[SchemeModel]:
+    for s in SCHEMES_DATASET:
+        if s.id == scheme_id:
+            return s
+    return None

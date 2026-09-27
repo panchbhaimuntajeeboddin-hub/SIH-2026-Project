@@ -1,0 +1,98 @@
+[
+  {
+    "id": "user-1001",
+    "name": "Ananya Shah",
+    "email": "ananya.shah@schemesaathi.in",
+    "mobileNumber": "+91 98230 11492",
+    "passwordHash": "5e6baf74ff956fcc9994eab222ebbccf04a76ba32284b9e47453da4513693465f63d8f15a27378d7854f4eda0f1598019ae4e665c9d77532752b0a8a0ac6d0a8",
+    "salt": "d46b878af3490e8ea37d6401312b29da",
+    "role": "USER",
+    "createdAt": "2026-08-01T00:00:00.000Z",
+    "lastLogin": "2026-09-27T14:45:37.245Z",
+    "accountStatus": "Active"
+  },
+  {
+    "id": "user-9999",
+    "name": "System Admin",
+    "email": "admin@schemesaathi.in",
+    "mobileNumber": "+91 98000 00000",
+    "passwordHash": "e2981a1d56b4ef05937b3c2472e6f45c98134083c2ddd0d1b31ecffd9bc5ce1cdd4aaba8c98e6107212378c4a4ac2b91f066bccfccfab97f56e86e7ec76da84d",
+    "salt": "bf1a430aec0c8d100c0a46b0c5fd94af",
+    "role": "ADMIN",
+    "createdAt": "2026-08-01T00:00:00.000Z",
+    "lastLogin": "2026-08-27T12:00:00.000Z",
+    "accountStatus": "Active"
+  },
+  {
+    "id": "user-1787995093665",
+    "name": "Panchbhaimuntajeeboddin",
+    "email": "panchbhaimuntajeeboddin@gmail.com",
+    "mobileNumber": "+91 5610896965",
+    "passwordHash": "2ce6d7910743e071481bd8f9f9089d958dc23d6646a5437a6a1bfe2b8e1ee66c12072840642ba81c566daa27c0f3b4ce2033785d61e81d8ef55d8fbd9ea960f3",
+    "salt": "c5a8483eb35fb1b0ad10ef6c05c1517d",
+    "role": "USER",
+    "createdAt": "2026-08-29T09:18:13.715Z",
+    "lastLogin": "2026-09-27T14:42:29.797Z",
+    "accountStatus": "Active"
+  },
+  {
+    "id": "user-1787996017170",
+    "name": "Arfat Panchbhai",
+    "email": "arfat panchbhai",
+    "mobileNumber": "+91 7959319705",
+    "passwordHash": "1106f2c6304295b9aa5c2dba8acd959abd524e88dcc1ac9170bd43e10c544ebea699b8a7f5a83754d95d4a29150b93fb5a30864acbd7fe8dcd964b224ae9b4e0",
+    "salt": "8b11865dff88555d7c42ce72e8917c6e",
+    "role": "USER",
+    "createdAt": "2026-08-29T09:33:37.180Z",
+    "lastLogin": "2026-08-29T09:33:37.184Z",
+    "accountStatus": "Active"
+  },
+  {
+    "id": "user-1787996224431",
+    "name": "Mahek patel",
+    "email": "mahek@gmail.com",
+    "mobileNumber": "+91 9822675747",
+    "passwordHash": "9008cea8e6598b0ece6ba9bda1dec7557263824f0540d34a37c9371da951dec60ec5639579f784567e025bce51d58e9002ca87c5398c6e074b759abf75cf9629",
+    "salt": "a40c0d645553f27cd7cbdbc6dd02d523",
+    "role": "USER",
+    "createdAt": "2026-08-29T09:37:04.446Z",
+    "lastLogin": "2026-08-29T09:53:28.973Z",
+    "accountStatus": "Active"
+  },
+  {
+    "id": "user-1788197030051",
+    "name": "Entrepreneur 3708",
+    "email": "09970333708@schemesaathi.in",
+    "mobileNumber": "09970333708",
+    "passwordHash": "8ec9c463ff83e3d7a8466286aa073fca4b5044834af7acd860f3d969beb456176e69e684a13f4079afdf01beaa1cb5c115239a969b5dc6fdd0f2b51c4b9b5e39",
+    "salt": "fd9e2e76bb48e35e18525e17140fe660",
+    "role": "USER",
+    "createdAt": "2026-08-31T17:23:50.064Z",
+    "lastLogin": "2026-08-31T17:23:50.067Z",
+    "accountStatus": "Active"
+  },
+  {
+    "id": "user-1788340090625",
+    "name": "Nomanshikh2343",
+    "email": "nomanshikh2343@gmail.com",
+    "mobileNumber": "+91 nomanshikh2343@gmail.com",
+    "passwordHash": "a1c0f4ac6a31f8d13183f5dbd52da7c5c63ea72dd47873c74aa706caa6c80634021737561d887ddbed2b400c0fb4627bebd47e9e5e56ceffac6548298deb917c",
+    "salt": "1a9d44fe41be2045111a54eb8e837fa2",
+    "role": "USER",
+    "createdAt": "2026-09-02T09:08:10.639Z",
+    "lastLogin": "2026-09-02T09:08:10.642Z",
+    "accountStatus": "Active"
+  },
+  {
+    "id": "user-1790520274690",
+    "name": "MAHEK PATEL",
+    "email": "mahek12@gmail.com",
+    "mobileNumber": "+91 9970333708",
+    "passwordHash": "cfcd3e56d985f9e73f2340fcb4a435690aff30571ebfd4bbd7346d25788f761dccb61d211b170e529bacddf2162c5f4de3e9a6245bf4dae202260da8ab313017",
+    "salt": "601997483ed326e4ec3335d5913deece",
+    "role": "USER",
+    "createdAt": "2026-09-27T14:44:34.738Z",
+    "lastLogin": "2026-09-27T14:45:14.742Z",
+    "accountStatus": "Active"
+  }
+]

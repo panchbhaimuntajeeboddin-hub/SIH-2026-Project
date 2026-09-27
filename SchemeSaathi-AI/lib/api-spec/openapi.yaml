@@ -1,0 +1,992 @@
+openapi: 3.1.0
+info:
+  # Do not change the title, if the title changes, the import paths will be broken
+  title: Api
+  version: 0.1.0
+  description: API specification
+servers:
+  - url: /api
+    description: Base API path
+tags:
+  - name: health
+    description: Health operations
+  - name: schemes
+    description: Government scheme discovery
+  - name: profile
+    description: Entrepreneur profile
+  - name: recommendations
+    description: Eligibility and scheme matching
+  - name: documents
+    description: Document readiness
+  - name: assistant
+    description: Grounded scheme assistant
+  - name: dashboard
+    description: User dashboard summaries
+  - name: calculator
+    description: Financial and subsidy calculations
+  - name: roadmap
+    description: Application milestone tracking
+  - name: dpr
+    description: Detailed Project Report generation
+paths:
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      description: Returns server health status
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+  /schemes:
+    get:
+      operationId: listSchemes
+      tags: [schemes]
+      summary: List government schemes
+      parameters:
+        - name: search
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: category
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Scheme list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Scheme"
+  /schemes/{schemeId}:
+    get:
+      operationId: getScheme
+      tags: [schemes]
+      summary: Get scheme details
+      parameters:
+        - name: schemeId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Scheme details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Scheme"
+        "404":
+          description: Scheme not found
+  /profile:
+    get:
+      operationId: getProfile
+      tags: [profile]
+      summary: Get the demo entrepreneur profile
+      responses:
+        "200":
+          description: Entrepreneur profile
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EntrepreneurProfile"
+    post:
+      operationId: saveProfile
+      tags: [profile]
+      summary: Save entrepreneur profile and business details
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProfileInput"
+      responses:
+        "200":
+          description: Saved profile
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EntrepreneurProfile"
+  /match:
+    post:
+      operationId: createMatch
+      tags: [recommendations]
+      summary: Rank schemes for a profile
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProfileInput"
+      responses:
+        "200":
+          description: Ranked recommendations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Recommendation"
+  /recommendations:
+    get:
+      operationId: listRecommendations
+      tags: [recommendations]
+      summary: Get the latest ranked recommendations
+      responses:
+        "200":
+          description: Ranked recommendations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Recommendation"
+  /documents:
+    get:
+      operationId: listDocuments
+      tags: [documents]
+      summary: List uploaded document metadata
+      responses:
+        "200":
+          description: Documents
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Document"
+    post:
+      operationId: addDocument
+      tags: [documents]
+      summary: Add a document to the readiness checklist
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DocumentInput"
+      responses:
+        "201":
+          description: Added document
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Document"
+  /application-readiness:
+    get:
+      operationId: getApplicationReadiness
+      tags: [documents]
+      summary: Get document readiness summary
+      responses:
+        "200":
+          description: Readiness summary
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Readiness"
+  /assistant:
+    post:
+      operationId: askAssistant
+      tags: [assistant]
+      summary: Ask the grounded scheme assistant
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AssistantQuestion"
+      responses:
+        "200":
+          description: Assistant response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AssistantAnswer"
+  /chat/threads:
+    get:
+      operationId: listChatThreads
+      tags: [chat]
+      summary: List user conversation threads
+      responses:
+        "200":
+          description: List of chat threads
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ChatThread"
+    post:
+      operationId: createChatThread
+      tags: [chat]
+      summary: Create a new conversation thread
+      responses:
+        "201":
+          description: Created chat thread
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ChatThread"
+  /chat/threads/{threadId}:
+    delete:
+      operationId: deleteChatThread
+      tags: [chat]
+      summary: Delete a conversation thread
+      parameters:
+        - name: threadId
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        "200":
+          description: Deleted thread status
+  /chat/threads/{threadId}/messages:
+    get:
+      operationId: getThreadMessages
+      tags: [chat]
+      summary: Get all messages in a conversation thread
+      parameters:
+        - name: threadId
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        "200":
+          description: Messages array
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ChatMessage"
+  /chat/messages:
+    post:
+      operationId: sendChatMessage
+      tags: [chat]
+      summary: Send a question to AI chatbot
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SendChatMessageInput"
+      responses:
+        "200":
+          description: Generated AI response message
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ChatMessage"
+  /chat/feedback:
+    post:
+      operationId: submitChatFeedback
+      tags: [chat]
+      summary: Submit feedback for AI response
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ChatFeedbackInput"
+      responses:
+        "200":
+          description: Feedback response status
+  /admin/chat/stats:
+    get:
+      operationId: getAdminChatStats
+      tags: [admin]
+      summary: Get admin chatbot statistics and flagged misuse audit log
+      responses:
+        "200":
+          description: Chatbot stats
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ChatStats"
+  /dashboard:
+    get:
+      operationId: getDashboard
+      tags: [dashboard]
+      summary: Get dashboard summary
+      responses:
+        "200":
+          description: Dashboard summary
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Dashboard"
+  /calculator:
+    post:
+      operationId: calculateFinancials
+      tags: [calculator]
+      summary: Compute subsidy and EMI breakdown
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CalculatorInput"
+      responses:
+        "200":
+          description: Financial calculation result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CalculatorResult"
+  /roadmap:
+    get:
+      operationId: getRoadmap
+      tags: [roadmap]
+      summary: Get application roadmap milestones
+      responses:
+        "200":
+          description: Application roadmap milestones
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/RoadmapMilestone"
+  /roadmap/complete:
+    post:
+      operationId: toggleMilestone
+      tags: [roadmap]
+      summary: Toggle milestone completion status
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ToggleMilestoneInput"
+      responses:
+        "200":
+          description: Updated roadmap milestones
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/RoadmapMilestone"
+  /dpr/generate:
+    post:
+      operationId: generateDpr
+      tags: [dpr]
+      summary: Generate Detailed Project Report outline
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DprInput"
+      responses:
+        "200":
+          description: Detailed Project Report content
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DprReport"
+  /documents/process:
+    post:
+      operationId: processDocument
+      tags: [documents]
+      summary: AI Document OCR and Verification
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DocumentInput"
+      responses:
+        "200":
+          description: Processed document with extracted info and profile verification
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Document"
+  /admin/schemes:
+    post:
+      operationId: createScheme
+      tags: [schemes]
+      summary: Create new government scheme
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Scheme"
+      responses:
+        "201":
+          description: Created scheme
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Scheme"
+  /admin/schemes/{schemeId}:
+    put:
+      operationId: updateScheme
+      tags: [schemes]
+      summary: Update existing scheme parameters and rules
+      parameters:
+        - name: schemeId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Scheme"
+      responses:
+        "200":
+          description: Updated scheme
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Scheme"
+    delete:
+      operationId: deleteScheme
+      tags: [schemes]
+      summary: Delete government scheme
+      parameters:
+        - name: schemeId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Deleted status
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success: { type: boolean }
+  /auth/login:
+    post:
+      operationId: login
+      tags: [auth]
+      summary: Secure user login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginInput"
+      responses:
+        "200":
+          description: Auth token and user profile
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+  /auth/signup:
+    post:
+      operationId: signup
+      tags: [auth]
+      summary: User account registration
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SignupInput"
+      responses:
+        "201":
+          description: Auth token and user profile
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+  /auth/forgot-password:
+    post:
+      operationId: forgotPassword
+      tags: [auth]
+      summary: Trigger password reset token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ForgotPasswordInput"
+      responses:
+        "200":
+          description: Password reset token response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message: { type: string }
+                  resetToken: { type: string }
+  /auth/reset-password:
+    post:
+      operationId: resetPassword
+      tags: [auth]
+      summary: Reset user password with token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ResetPasswordInput"
+      responses:
+        "200":
+          description: Password reset confirmation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success: { type: boolean }
+                  message: { type: string }
+  /auth/me:
+    get:
+      operationId: getMe
+      tags: [auth]
+      summary: Get authenticated user details
+      responses:
+        "200":
+          description: Current user profile
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthUser"
+  /auth/logout:
+    post:
+      operationId: logout
+      tags: [auth]
+      summary: Invalidate user session
+      responses:
+        "200":
+          description: Logged out
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: { type: string }
+components:
+  schemas:
+    HealthStatus:
+      type: object
+      properties:
+        status:
+          type: string
+      required:
+        - status
+    Scheme:
+      type: object
+      required: [id, name, shortName, description, category, benefits, documents, status, lastVerified, source, locations, businessTypes]
+      properties:
+        id: { type: string }
+        name: { type: string }
+        shortName: { type: string }
+        description: { type: string }
+        category: { type: string }
+        ministry: { type: string }
+        governmentType: { type: string } # "Central Government" | "State Government"
+        benefits:
+          type: array
+          items: { type: string }
+        documents:
+          type: array
+          items: { type: string }
+        status: { type: string }
+        lastVerified: { type: string }
+        source: { type: string }
+        officialApplicationUrl: { type: string }
+        locations:
+          type: array
+          items: { type: string }
+        businessTypes:
+          type: array
+          items: { type: string }
+        targetGroups:
+          type: array
+          items: { type: string }
+        maxProjectCost: { type: ["number", "null"] }
+        subsidyRatePercent: { type: number }
+        maxSubsidyAmount: { type: number }
+        maxLoanAmount: { type: number }
+        interestSubventionPercent: { type: number }
+        processingTimeWeeks: { type: number }
+        sector: { type: string }
+        minAge: { type: number }
+        maxAge: { type: number }
+        maxAnnualIncome: { type: number }
+        maxTurnover: { type: number }
+        maxInvestment: { type: number }
+        isActive: { type: boolean }
+    ProfileInput:
+      type: object
+      required: [name, age, category, state, district, annualIncome, investmentAvailable, projectCost, loanRequirement, businessType, industry, businessStatus, location, expectedTurnover, employees, education, experience, training, previousLoan, previousAssistance]
+      properties:
+        name: { type: string, minLength: 1 }
+        dob: { type: string }
+        age: { type: number, minimum: 18 }
+        gender: { type: string }
+        mobileNumber: { type: string }
+        email: { type: string }
+        category: { type: string }
+        minorityStatus: { type: string } # "Yes" | "No"
+        pwd: { type: string } # "Yes" | "No"
+        veteran: { type: string } # "Yes" | "No"
+        womanEntrepreneur: { type: string } # "Yes" | "No"
+        youthEntrepreneur: { type: string } # "Yes" | "No"
+        ruralUrban: { type: string } # "Rural" | "Urban"
+        annualFamilyIncome: { type: number, minimum: 0 }
+        state: { type: string }
+        district: { type: string }
+        cityVillage: { type: string }
+        address: { type: string }
+        businessName: { type: string }
+        businessType: { type: string }
+        businessRegistrationType: { type: string }
+        businessSector: { type: string }
+        industry: { type: string }
+        businessActivity: { type: string }
+        businessDescription: { type: string }
+        businessStatus: { type: string }
+        location: { type: string }
+        businessStartDate: { type: string }
+        yearsInBusiness: { type: number, minimum: 0 }
+        annualIncome: { type: number, minimum: 0 }
+        investmentAvailable: { type: number, minimum: 0 }
+        investmentPlantMachinery: { type: number, minimum: 0 }
+        projectCost: { type: number, minimum: 0 }
+        loanRequirement: { type: number, minimum: 0 }
+        creditRequirement: { type: number, minimum: 0 }
+        bankAccountAvailable: { type: string } # "Yes" | "No"
+        expectedTurnover: { type: number, minimum: 0 }
+        employees: { type: number, minimum: 0 }
+        education: { type: string }
+        experience: { type: string }
+        training: { type: string }
+        previousLoan: { type: string }
+        previousLoanStatus: { type: string }
+        existingLoan: { type: string } # "Yes" | "No"
+        previousAssistance: { type: string }
+        existingGovernmentAssistance: { type: string } # "Yes" | "No"
+    EntrepreneurProfile:
+      allOf:
+        - $ref: "#/components/schemas/ProfileInput"
+        - type: object
+          required: [id, completeness]
+          properties:
+            id: { type: string }
+            completeness: { type: number }
+    MatchingCriterion:
+      type: object
+      required: [criteria, userValue, requirement, isSatisfied]
+      properties:
+        criteria: { type: string }
+        userValue: { type: string }
+        requirement: { type: string }
+        isSatisfied: { type: boolean }
+    Recommendation:
+      type: object
+      required: [scheme, score, status, reasons, eligibility, documentReady]
+      properties:
+        scheme:
+          $ref: "#/components/schemas/Scheme"
+        score: { type: number }
+        matchClassification: { type: string } # "Excellent Match" | "Strong Match" | "Possible Match" | "Low Match" | "Not Eligible"
+        isEligible: { type: boolean }
+        disqualificationReasons:
+          type: array
+          items: { type: string }
+        confidenceLevel: { type: string } # "High" | "Medium" | "Low"
+        verifiedCriteriaCount: { type: number }
+        totalCriteriaCount: { type: number }
+        explanation: { type: string }
+        status: { type: string }
+        reasons:
+          type: array
+          items: { type: string }
+        criteriaTable:
+          type: array
+          items:
+            $ref: "#/components/schemas/MatchingCriterion"
+        missingDocuments:
+          type: array
+          items: { type: string }
+        missingInformation:
+          type: array
+          items: { type: string }
+        eligibility:
+          type: object
+          additionalProperties: { type: string }
+        documentReady: { type: number }
+    DocumentInput:
+      type: object
+      required: [name, type]
+      properties:
+        name: { type: string }
+        type: { type: string }
+    Document:
+      allOf:
+        - $ref: "#/components/schemas/DocumentInput"
+        - type: object
+          required: [id, status, uploadedAt]
+          properties:
+            id: { type: string }
+            status: { type: string } # "Verified" | "Needs Review" | "Invalid"
+            uploadedAt: { type: string }
+            extractedInfo: { type: object, additionalProperties: { type: string } }
+            profileMatch: { type: boolean }
+            missingInfo:
+              type: array
+              items: { type: string }
+            isExpired: { type: boolean }
+    Readiness:
+      type: object
+      required: [percentage, uploaded, required, missing]
+      properties:
+        percentage: { type: number }
+        uploaded: { type: number }
+        required: { type: number }
+        missing:
+          type: array
+          items: { type: string }
+    AssistantQuestion:
+      type: object
+      required: [question]
+      properties:
+        question: { type: string, minLength: 1 }
+    AssistantAnswer:
+      type: object
+      required: [answer, sources, disclaimer]
+      properties:
+        answer: { type: string }
+        sources:
+          type: array
+          items: { type: string }
+        disclaimer: { type: string }
+    Dashboard:
+      type: object
+      required: [profile, topRecommendation, recommendations, readiness, recentActivity]
+      properties:
+        profile:
+          $ref: "#/components/schemas/EntrepreneurProfile"
+        topRecommendation:
+          $ref: "#/components/schemas/Recommendation"
+        recommendations:
+          type: array
+          items:
+            $ref: "#/components/schemas/Recommendation"
+        ineligibleSchemes:
+          type: array
+          items:
+            $ref: "#/components/schemas/Recommendation"
+        readiness:
+          $ref: "#/components/schemas/Readiness"
+        recentActivity:
+          type: array
+          items: { type: string }
+    CalculatorInput:
+      type: object
+      required: [projectCost]
+      properties:
+        schemeId: { type: string }
+        projectCost: { type: number, minimum: 0 }
+        category: { type: string }
+        location: { type: string }
+        tenureYears: { type: number, minimum: 1, maximum: 15 }
+        interestRate: { type: number, minimum: 0 }
+    CalculatorResult:
+      type: object
+      required: [projectCost, subsidyRatePercent, subsidyAmount, ownerContribution, bankLoanAmount, monthlyEmi, breakdownNote]
+      properties:
+        schemeId: { type: string }
+        schemeName: { type: string }
+        projectCost: { type: number }
+        subsidyRatePercent: { type: number }
+        subsidyAmount: { type: number }
+        ownerContribution: { type: number }
+        bankLoanAmount: { type: number }
+        interestSubventionPercent: { type: number }
+        monthlyEmi: { type: number }
+        breakdownNote: { type: string }
+    RoadmapMilestone:
+      type: object
+      required: [id, stepNumber, title, description, status, keyTasks, estimatedDuration]
+      properties:
+        id: { type: string }
+        stepNumber: { type: number }
+        title: { type: string }
+        description: { type: string }
+        status: { type: string }
+        keyTasks:
+          type: array
+          items: { type: string }
+        estimatedDuration: { type: string }
+    ToggleMilestoneInput:
+      type: object
+      required: [milestoneId]
+      properties:
+        milestoneId: { type: string }
+    DprInput:
+      type: object
+      required: [schemeId]
+      properties:
+        schemeId: { type: string }
+        businessName: { type: string }
+    DprReport:
+      type: object
+      required: [schemeName, businessName, executiveSummary, capitalExpenditure, workingCapitalBreakup, revenueProjection, employmentGenerated, keyRisksAndMitigations]
+      properties:
+        schemeName: { type: string }
+        businessName: { type: string }
+        executiveSummary: { type: string }
+        capitalExpenditure:
+          type: array
+          items:
+            type: object
+            properties:
+              item: { type: string }
+              cost: { type: number }
+        workingCapitalBreakup: { type: string }
+        revenueProjection: { type: string }
+        employmentGenerated: { type: number }
+        keyRisksAndMitigations:
+          type: array
+          items: { type: string }
+    LoginInput:
+      type: object
+      required: [email, password]
+      properties:
+        email: { type: string }
+        password: { type: string }
+    SignupInput:
+      type: object
+      required: [name, email, password]
+      properties:
+        name: { type: string }
+        email: { type: string }
+        mobileNumber: { type: string }
+        password: { type: string }
+        confirmPassword: { type: string }
+        businessType: { type: string }
+        state: { type: string }
+    ForgotPasswordInput:
+      type: object
+      required: [email]
+      properties:
+        email: { type: string }
+    ResetPasswordInput:
+      type: object
+      required: [resetToken, newPassword]
+      properties:
+        resetToken: { type: string }
+        newPassword: { type: string }
+    AuthUser:
+      type: object
+      required: [id, name, email, avatar, role, isAuthenticated]
+      properties:
+        id: { type: string }
+        name: { type: string }
+        email: { type: string }
+        mobileNumber: { type: string }
+        avatar: { type: string }
+        role: { type: string }
+        isAuthenticated: { type: boolean }
+    AuthResponse:
+      type: object
+      required: [token, user]
+      properties:
+        token: { type: string }
+        user:
+          $ref: "#/components/schemas/AuthUser"
+    ChatThread:
+      type: object
+      required: [id, title, createdAt, updatedAt, messageCount]
+      properties:
+        id: { type: string }
+        title: { type: string }
+        createdAt: { type: string }
+        updatedAt: { type: string }
+        messageCount: { type: number }
+    StructuredAIAnswer:
+      type: object
+      required: [answer, why, whatYouNeed, nextSteps, important]
+      properties:
+        answer: { type: string }
+        why: { type: string }
+        whatYouNeed:
+          type: array
+          items: { type: string }
+        nextSteps:
+          type: array
+          items: { type: string }
+        important: { type: string }
+    ChatMessage:
+      type: object
+      required: [id, threadId, sender, text, timestamp]
+      properties:
+        id: { type: string }
+        threadId: { type: string }
+        sender: { type: string, enum: [user, assistant] }
+        text: { type: string }
+        timestamp: { type: string }
+        structuredAnswer:
+          $ref: "#/components/schemas/StructuredAIAnswer"
+        isGuardrailBlocked: { type: boolean }
+        blockReason: { type: string }
+        isHelpful: { type: boolean }
+        sources:
+          type: array
+          items: { type: string }
+        attachedDocs:
+          type: array
+          items: { type: string }
+    SendChatMessageInput:
+      type: object
+      required: [text]
+      properties:
+        threadId: { type: string }
+        text: { type: string }
+        attachedDocs:
+          type: array
+          items: { type: string }
+    ChatFeedbackInput:
+      type: object
+      required: [messageId, isHelpful]
+      properties:
+        messageId: { type: string }
+        isHelpful: { type: boolean }
+        comment: { type: string }
+    FlaggedChatRequest:
+      type: object
+      required: [id, userId, timestamp, userQuery, blockReason, category]
+      properties:
+        id: { type: string }
+        userId: { type: string }
+        userName: { type: string }
+        timestamp: { type: string }
+        userQuery: { type: string }
+        blockReason: { type: string }
+        category: { type: string }
+    ChatStats:
+      type: object
+      required: [totalQuestions, genuineResponseRate, blockedAttempts, satisfactionRate, flaggedRequests]
+      properties:
+        totalQuestions: { type: number }
+        genuineResponseRate: { type: number }
+        blockedAttempts: { type: number }
+        satisfactionRate: { type: number }
+        flaggedRequests:
+          type: array
+          items:
+            $ref: "#/components/schemas/FlaggedChatRequest"

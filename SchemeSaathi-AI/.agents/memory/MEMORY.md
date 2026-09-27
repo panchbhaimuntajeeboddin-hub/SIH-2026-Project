@@ -1,0 +1,1 @@
+- [OpenAPI integer compatibility](schema-generator-compatibility.md) — use numeric contract fields until the generated Zod runtime supports integer helpers.
